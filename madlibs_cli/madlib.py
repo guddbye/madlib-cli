@@ -1,26 +1,31 @@
-# Print a welcome message to the user, explaining the Madlib process and command line interactions.
-print("Welcome to the Madlib program.")
-print("This program will take a template and fill in the blanks with user input.")
-print("You will be prompted to enter a series of words to fill in the blanks.")
-print("When you are done, the program will print the completed Madlib.")
+import re
 
-print("********************************************************************************")
-print("                                                                               ")
+print('Welcome to the madlibs generator!')
+print('Please enter a sentence:')
+adjective1 = input('I need an adjective ')
+adjective2 = input('I need an adjective ')
+noun = input('I need a noun ')
 
-print("It is time for Madlib")
+input_tuple = (adjective1, adjective2, noun)
 
-def read_template (path):
-    file = open(path, "r")
-    read = file.read()
-    file.close()
-    return read.strip()
+regex = r"(?<={).*?(?=})"
 
-print("Please enter an adjective:")
-adjective1 = input("Adjective: ", )
-print("Please enter an adjective:")
-adjective2 = input("Adjective: ")
-print("Please enter a noun:")
-noun = input("Noun: ")
+with open ('assets/dark_and_story_night_template.txt') as file:
+  read_template = file.read().strip()
+print(read_template)
+file.close()
 
-# Read a template Madlib file (Example), and parse that file into usable parts.
-print("It was a " + adjective1 + " and " + adjective2 + " " + noun + ".")
+speech_parts = re.findall(regex, read_template)
+parsed_message = re.sub(regex,'', read_template)
+completedMadlib =  parsed_message.format(adjective1, adjective2, noun)
+print(completedMadlib)
+
+def merge(b, **a):
+  print(a)
+  print(b)
+  new_sentence = a.format(b)
+  return new_sentence
+
+file = open('assets/dark_and_story_night_template.txt', 'w')
+n = file.write(completedMadlib)
+file.close()
