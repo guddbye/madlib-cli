@@ -49,6 +49,7 @@ answer = merge(stripped, tuple(responses))
 print(answer)
 
 #write answer to new file
+
 f = open("answers/answer.txt", "w")
 f.write(answer)
 f.close()
