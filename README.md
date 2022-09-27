@@ -1,3 +1,9 @@
-# madlib-cli
+## LAB - Class 03
 
-Tested the files with trial and error. Used pytest to make sure tests were passing, if not then made changes.
+## Project: Madlib
+
+## Setup
+Run the program using python madlib_cli/madlib.py.
+
+## Tests
+The tests can be run with python -m pytest. The most important test is for parse_template since that function is the most complex.

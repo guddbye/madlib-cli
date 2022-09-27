@@ -1,36 +1,54 @@
-import re
+def read_template(str):
+    file = open(str, "r")
+    read = file.read()
+    file.close()
+    return read.strip()
 
-print('Welcome to the madlibs generator!')
-print('Please enter a sentence:')
-adjective1 = input('Give me an adjective: ')
-adjective2 = input('Give me another adjective: ')
-noun = input('Give me a noun: ')
+def parse_template(str):
+    final_string = ""
+    final_list = []
+    capturing = False
+    captured_word = ""
+    for x in str:
+        if capturing:
+            if x == "}":
+                capturing = False
+                final_list.append(captured_word)
+                captured_word = ""
+                final_string += x
+            else:
+                captured_word += x
 
-print("It was a " + adjective1 + " and " + adjective2 + " " + noun + ".")
+        else:
+            final_string += x
+            if x == "{":
+                capturing = True
 
-input_tuple = (adjective1, adjective2, noun)
+    return final_string, tuple(final_list)
 
-regex = r"(?<={).*?(?=})"
+def merge(str, tup):
+    return str.format(*tup)
 
-with open ('assets/dark_and_story_night_template.txt') as file:
-  read_template = file.read().strip()
-print(read_template)
-file.close()
+filepath = "assets/dark_and_stormy_night_template.txt"
 
-speech_parts = re.findall(regex, read_template)
-parsed_message = re.sub(regex,'', read_template)
-completedMadlib =  parsed_message.format(adjective1, adjective2, noun)
-print(completedMadlib.format)
+stripped, parts = parse_template(read_template(filepath))
 
-def merge(b, **a):
-  print(a)
-  print(b)
-  new_sentence = a.format(b)
-  return new_sentence
+responses = []
+for x in parts:
+    if x.lower() == "adjective":
+        print(f"Enter an {x}")
+        response = input("> ")
+        responses.append(response)
 
-# madlib = merge(read_template, input_tuple)
-# print(madlib)
+    else:
+        print(f"Enter a {x}")
+        response = input("> ")
+        responses.append(response)
 
-file = open('assets/dark_and_story_night_template.txt', 'w')
-n = file.write(completedMadlib)
-file.close()
+answer = merge(stripped, tuple(responses))
+print(answer)
+
+#write answer to new file
+f = open("answers/answer.txt", "w")
+f.write(answer)
+f.close()
